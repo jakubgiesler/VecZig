@@ -7,7 +7,6 @@ pub fn Vec(comptime T: type) type {
             OutOfMemory,
             OutOfRange,
             VecIsEmpty,
-            UnimplementedSortForTypeT,
         };
 
         data: ?[]T,
