@@ -6,7 +6,7 @@ Zig implementation of Vectors.
 ```
  - Storing any Zig and C variables inside Vec including Structs, Unions and Enums on heap
  - Super simple iteration 
- - Automatic memory allocations, reallocationion
+ - Automatic memory allocations, reallocations
  - Uses `c allocator` by default, no need to pass allocator
  ```markdown
 > Planned features
