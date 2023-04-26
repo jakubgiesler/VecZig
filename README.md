@@ -32,7 +32,7 @@ Zig implementation of Vectors.
 var vector0 = Vec(type).init();
 var vector1 = Vec(i32).init();
 
-// or can be creating with new
+// or can be initalized with
 var vector2 = Vec(f32).new();
 
 const MY_STRUCT = struct {
