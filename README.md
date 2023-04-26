@@ -60,6 +60,19 @@ try vector3.push(MY_STRUCT { .data = 13, });
 //                   |   |
 try vector1.populate(10, 10);
 ```
+#### Iterate through elements
+```zig
+for (try  vec.iterate()) |element| {
+	print("{}", .{ element });
+}
+
+// or by pointer which you can edit
+for (try  vec.iterate()) |*element| {
+	element.* += 1;
+	
+	print("{}", .{ element });
+}
+```
 #### Getting length of Vec
 ```zig
 var length = vector1.len;
@@ -127,19 +140,6 @@ var slice = vector1.slice(0, 5);
 #### Cloning Vec
 ```zig
 var new_vector = vector1.clone();
-```
-#### Iterate through elements
-```zig
-for (try  vec.iterate()) |element| {
-	print("{}", .{ element });
-}
-
-// or by pointer which you can edit
-for (try  vec.iterate()) |*element| {
-	element.* += 1;
-	
-	print("{}", .{ element });
-}
 ```
 #### Getting last / first values
 ```zig
