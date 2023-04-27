@@ -21,9 +21,23 @@ Zig implementation of Vectors.
 - [ ] Swap remove
 - [ ] Proped documentation
 - [ ] More QOL functions
-## Usage
-- Just clone repo and use it :)
-- I dont know how licences works but anyway use it however you want
+## Usage example
+```zig
+// build.zig
+exe.linkLibC();
+exe.addPackage(std.build.Pkg { .name = "vec", .source = std.build.FileSource { .path = "path_to_pkg/VecZig/src/main.zig" } });
+```
+- Then you can anywhere use
+```zig
+// main.zig
+const Vec = @import("vec").Vec;
+
+fn main() !void {
+	var vec = Vec.new();
+	defer vec.delete();
+	// ...
+}
+```
 ## Docs?
 
 #### Creating new Vec examples
