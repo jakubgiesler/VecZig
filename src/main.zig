@@ -23,7 +23,7 @@ pub fn Vec(comptime T: type) type {
             };
         }
 
-        pub fn populate(self: *Vec(T), value: T, _len: usize) Error!void {
+        pub inline fn populate(self: *Vec(T), value: T, _len: usize) Error!void {
             if (self.data) |data| {
                 self.data = allocator.realloc(data, (self.len + _len))
                     catch return Error.OutOfMemory;

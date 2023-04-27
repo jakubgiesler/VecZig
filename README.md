@@ -20,10 +20,24 @@ Zig implementation of Vectors.
 - [ ] Reversing in specific range
 - [ ] Swap remove
 - [ ] Proped documentation
-- [ ] More QOL functions
-## Usage
-- Just clone repo and use it :)
-- I dont know how licences works but anyway use it however you want
+- [ ] Find, Any, Filter, Flatten, Map and more planned.
+## Usage example
+```zig
+// build.zig
+exe.linkLibC();
+exe.addPackage(std.build.Pkg { .name = "vec", .source = std.build.FileSource { .path = "path_to_pkg/VecZig/src/main.zig" } });
+```
+- Then you can anywhere use
+```zig
+// main.zig
+const Vec = @import("vec").Vec;
+
+fn main() !void {
+	var vec = Vec.new();
+	defer vec.delete();
+	// ...
+}
+```
 ## Docs?
 
 #### Creating new Vec examples
@@ -32,7 +46,7 @@ Zig implementation of Vectors.
 var vector0 = Vec(type).init();
 var vector1 = Vec(i32).init();
 
-// or can be creating with new
+// or can be initalized with
 var vector2 = Vec(f32).new();
 
 const MY_STRUCT = struct {
@@ -59,6 +73,10 @@ try vector3.push(MY_STRUCT { .data = 13, });
 // value ------------\   |
 //                   |   |
 try vector1.populate(10, 10);
+```
+#### Print entire content of Vec into Terminal
+```zig
+vector1.debug_print();
 ```
 #### Iterate through elements
 ```zig
@@ -151,11 +169,6 @@ var last = try vector1.last();
 var first = try vector1.first_ptr();
 var last = try vector1.last_ptr();
 ```
-#### Print entire content of Vec into Terminal
-```zig
-vector1.debug_print();
-```
-
 
 
 
