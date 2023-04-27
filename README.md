@@ -20,7 +20,7 @@ Zig implementation of Vectors.
 - [ ] Reversing in specific range
 - [ ] Swap remove
 - [ ] Proped documentation
-- [ ] More QOL functions
+- [ ] Find, Any, Filter, Flatten, Map and more planned.
 ## Usage example
 ```zig
 // build.zig
