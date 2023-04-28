@@ -18,7 +18,7 @@ Zig implementation of Vectors.
 - [ ] Ability to choose if use `c_allocator` or not
 - [ ] Reversing in specific range
 - [ ] Swap remove
-- [ ] Proped documentation
+- [ ] Proper documentation
 - [ ] Find, Filter, Flatten, Map and more planned.
 ## Usage example
 ```zig
