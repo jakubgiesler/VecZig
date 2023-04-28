@@ -1,0 +1,15 @@
+0.2.0
+- added some promised features:
+    - truncate - shortens vec
+    - drain - remove range from vec and returns it as Vec(T)
+
+- slices are now returned as Vec(T) so they need to be freed in order to prevent memleaks
+    this is because drain returns it as vec(t) to prevent changes of original values
+    so these two functions should behave the same
+
+- various bugfixes, and memory leak fixes
+
+------
+
+0.1.0
+- added base functionality of vec

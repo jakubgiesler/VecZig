@@ -220,14 +220,24 @@ pub fn Vec(comptime T: type) type {
             self.data.?[s] = temp;
         }
 
-        pub inline fn slice(self: *Vec(T), begin: usize, end: usize) Error![]const T {
+        pub inline fn slice(self: *Vec(T), begin: usize, end: usize) Error!Vec(T) {
             if (begin >= self.len or end >= self.len)
                 return Error.OutOfRange;
 
             if (self.data == null)
                 return Error.VecIsEmpty;
 
-            return self.data.?[begin..end + 1];
+            var new_vec = Vec(T).init();
+
+            var arr = allocator.alloc(T, end - begin + 1)
+                catch return Error.OutOfMemory;
+
+            std.mem.copy(T, arr[0..(end - begin + 1)], self.data.?[begin..end + 1]);
+
+            new_vec.data = arr;
+            new_vec.len = begin + end + 1;
+
+            return new_vec;
         }
 
         pub inline fn clone(self: *Vec(T)) Error!Vec(T) {
@@ -283,6 +293,57 @@ pub fn Vec(comptime T: type) type {
             return self.len == 0;
         }
 
+        pub inline fn truncate(self: *Vec(T), length: usize) Error!void {
+            if (length > self.len)
+                return;
+
+            if (self.data) |data| {
+                self.len = length;
+
+                self.data = allocator.realloc(data, self.len)
+                    catch return Error.OutOfMemory;
+            }
+            else {
+                return Error.VecIsEmpty;
+            }
+        }
+
+        pub inline fn drain(self: *Vec(T), begin: usize, end: usize) Error!Vec(T) {
+            if (begin > self.len or end > self.len or end <= begin)
+                return Error.OutOfRange;
+
+            if (self.data) |data| {
+                var new_vec = Vec(T).init();
+
+                var arr = allocator.alloc(T, end - begin + 1)
+                    catch return Error.OutOfMemory;
+
+                std.mem.copy(T, arr[0..(end - begin + 1)], self.data.?[begin..end + 1]);
+
+                new_vec.data = arr;
+                new_vec.len = end - begin + 1;
+
+                var temp_array = allocator.alloc(T, (self.len - new_vec.len))
+                    catch return Error.OutOfMemory;
+                defer allocator.free(temp_array);
+
+                std.mem.copy(T, temp_array[begin..(self.len - new_vec.len)], self.data.?[end + 1..self.len]);
+                std.mem.copy(T, temp_array[0..begin], self.data.?[0..begin]);
+                std.mem.copy(T, self.data.?[0..(self.len - new_vec.len)], temp_array[0..(self.len - new_vec.len)]);
+
+                self.data = temp_array;
+                self.len -= new_vec.len;
+
+                self.data = allocator.realloc(data, self.len)
+                    catch return Error.OutOfMemory;
+
+                return new_vec;
+            }
+            else {
+                return Error.VecIsEmpty;
+            }
+        }
+
         pub fn debug_print(self: *Vec(T)) void {
             if (self.data != null) {
                 std.debug.print("Vec<Type: {}; Len: {}> {{ ", .{ T, self.len });
@@ -336,6 +397,54 @@ pub fn Vec(comptime T: type) type {
 //       |/`.\`'        ,',');
 //           `         (/  (/
 
+test "Vec drain" {
+    const assert = std.debug.assert;
+    _ = assert;
+
+    std.debug.print("\n", .{});
+
+    var vec = Vec(i32).new();
+    defer vec.delete();
+
+    try vec.insert(&[_]i32 { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+
+    var __slice = try vec.drain(5, 7);
+    defer __slice.delete();
+
+    vec.debug_print();
+    __slice.debug_print();
+}
+
+test "Vec slice" {
+    const assert = std.debug.assert;
+
+    var vec = Vec(i32).new();
+    defer vec.delete();
+
+    try vec.insert(&[_]i32 { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+
+    var slice = try vec.slice(0, 5);
+    defer slice.delete();
+    assert(slice.len == 6);
+
+    try vec.set(1, 2394);
+    assert((try slice.get(1)) == 1);
+    assert((try vec.get(1)) == 2394);
+}
+
+test "Vec truncate" {
+    const assert = std.debug.assert;
+
+    var vec = Vec(i32).new();
+    defer vec.delete();
+
+    try vec.populate(10, 10);
+    assert(vec.len == 10);
+
+    try vec.truncate(5);
+    assert(vec.len == 5);
+}
+
 test "Vec last && first && last_ptr && first_ptr" {
     const assert = std.debug.assert;
 
@@ -385,20 +494,6 @@ test "Vec clone" {
     assert(vec.len == 10);
     assert((try vec.get(0)) == 10);
     assert((try vec0.get(0)) == 10);
-}
-
-test "Vec slice" {
-    const assert = std.debug.assert;
-
-    var vec = Vec(i32).new();
-    defer vec.delete();
-
-    try vec.populate(0, 10);
-    try vec.set(2, 10);
-
-    var slice = try vec.slice(0, 5);
-
-    assert(slice[2] == 10);
 }
 
 test "Vec swap" {

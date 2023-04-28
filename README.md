@@ -1,6 +1,7 @@
 # VecZig
 Zig implementation of Vectors.
 ###### Used Zig version v0.10.1
+###### Library version 0.2.0
 ```markdown
 > About
 ```
@@ -13,14 +14,12 @@ Zig implementation of Vectors.
 ```
 - [ ] Sorting by value or by passed custom function pointer
 - [ ] Preallocating memory with pre-defined capacity and reserve more if needed
-- [ ] Truncate
 - [ ] Retain
-- [ ] Drain
 - [ ] Ability to choose if use `c_allocator` or not
 - [ ] Reversing in specific range
 - [ ] Swap remove
 - [ ] Proped documentation
-- [ ] Find, Any, Filter, Flatten, Map and more planned.
+- [ ] Find, Filter, Flatten, Map and more planned.
 ## Usage example
 ```zig
 // build.zig
@@ -144,16 +143,25 @@ try vector1.append(another_vector);
 ```zig
 try vector1.reverse();
 ```
+#### Truncate -> shortens the vector
+```zig
+try vector1.truncate(5);
+```
+#### Drain -> Removes range from array and returns it as slice
+```zig
+var slice = try vector1.drain(5, 7);
+```
 #### Swaping values by indexes
 ```zig
 try vector1.swap(0, 3);
 ```
-#### Getting slice
+#### Getting slice -> slices are returned as Vec(T)
 ```zig
 // end at -------------------\
 // begin at --------------\  |
 //                        |  |
 var slice = vector1.slice(0, 5);
+defer slice.delete();
 ```
 #### Cloning Vec
 ```zig
