@@ -1,7 +1,7 @@
 # VecZig
 Zig implementation of Vectors.
 ###### Used Zig version v0.10.1
-###### Library version 0.2.0
+###### Library version 0.2.1
 ```markdown
 > About
 ```

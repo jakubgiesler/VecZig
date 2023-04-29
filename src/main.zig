@@ -397,11 +397,22 @@ pub fn Vec(comptime T: type) type {
 //       |/`.\`'        ,',');
 //           `         (/  (/
 
+test "Vec string" {
+    std.debug.print("\n", .{});
+
+    var vec = Vec([]const u8).new();
+    defer vec.delete();
+
+    try vec.push("yes");
+    try vec.push("this");
+    try vec.push("is");
+    try vec.push("working");
+    try vec.push("as expected");
+}
+
 test "Vec drain" {
     const assert = std.debug.assert;
     _ = assert;
-
-    std.debug.print("\n", .{});
 
     var vec = Vec(i32).new();
     defer vec.delete();
@@ -410,9 +421,6 @@ test "Vec drain" {
 
     var __slice = try vec.drain(5, 7);
     defer __slice.delete();
-
-    vec.debug_print();
-    __slice.debug_print();
 }
 
 test "Vec slice" {

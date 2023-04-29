@@ -1,3 +1,6 @@
+0.2.1
+- fixed bug where only first index of array gets pushed when using Vec of arrays
+
 0.2.0
 - added some promised features:
     - truncate - shortens vec
