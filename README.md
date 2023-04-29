@@ -9,6 +9,11 @@ Zig implementation of Vectors.
  - Super simple iteration 
  - Automatic memory allocations, reallocations
  - Uses `c allocator` by default, no need to pass allocator
+  ```markdown
+> Note
+```
+This library is not meant to be a replacement for ArrayList in STD, but rather an alternative.
+Also, this library is young (see lib version above) and not meant to be in production yet.
  ```markdown
 > Planned features
 ```
@@ -18,7 +23,7 @@ Zig implementation of Vectors.
 - [ ] Ability to choose if use `c_allocator` or not
 - [ ] Reversing in specific range
 - [ ] Swap remove
-- [ ] Proped documentation
+- [ ] Proper documentation
 - [ ] Find, Filter, Flatten, Map and more planned.
 ## Usage example
 ```zig
