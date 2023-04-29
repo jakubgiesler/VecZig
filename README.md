@@ -29,7 +29,7 @@ Also, this library is young (see lib version above) and not meant to be in produ
 ```zig
 // build.zig
 exe.linkLibC();
-exe.addPackage(std.build.Pkg { .name = "vec", .source = std.build.FileSource { .path = "path_to_pkg/VecZig/src/main.zig" } });
+exe.addPackage(std.build.Pkg { .name = "vec", .source = std.build.FileSource { .path = "path_to_pkg" } });
 ```
 - Then you can anywhere use
 ```zig
