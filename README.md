@@ -14,17 +14,6 @@ Zig implementation of Vectors.
 ```
 This library is not meant to be a replacement for ArrayList in STD, but rather an alternative.
 Also, this library is young (see lib version above) and not meant to be in production yet.
- ```markdown
-> Planned features
-```
-- [ ] Sorting by value or by passed custom function pointer
-- [ ] Preallocating memory with pre-defined capacity and reserve more if needed
-- [ ] Retain
-- [ ] Ability to choose if use `c_allocator` or not
-- [ ] Reversing in specific range
-- [ ] Swap remove
-- [ ] Proper documentation
-- [ ] Find, Filter, Flatten, Map and more planned.
 ## Usage example
 ```zig
 // build.zig
